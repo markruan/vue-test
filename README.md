@@ -24,3 +24,6 @@ npm run test
 ```
 npm run lint
 ```
+###
+
+Vue 音乐播放器学习
