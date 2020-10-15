@@ -6,6 +6,7 @@
     </van-panel>
     <van-panel title="热门视频" desc status>
        <vlist :mv-list="mvList" />
+       
     </van-panel>
   </van-tab>
 </template>
