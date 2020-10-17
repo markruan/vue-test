@@ -3,6 +3,7 @@
  */
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { isPending } from 'q';
 
 //挂载Vuex
 Vue.use(Vuex)
@@ -12,53 +13,79 @@ const store = new Vuex.Store({
     state: {
         //存放的键值对就是所要管理的状态
         playing: false,
-        fullScreen: false,
-        playList: [],
-        currentIndex: -1,
-        favoriteList: [],
-        playHistory: [],
-        audioList: []
+        duration: {},
+        currentTime: 0,
+        songId: {},
+        songName: {},
+        songUrl: '',
+        songImg: '',
+        songArtist: {},
+        showAplayer: true
     },
     mutations: {
-        getGeList(state, list) {
-
-            state.playHistory = list
+        setSongName(state, name) {
+            state.songName = name
         },
-        addSongToHistory(state, info) {
-
-            const data = state.playHistory
-           
-            const result = data.some(item => {
-              
-                if (item.id == info.id) {
-                    return true
-                }
-            })
-            console.log(result)
-            if (!result) {
-                data.push(info)
-            }
-
+        setDuration(state, duration) {
+            state.duration = duration
         },
-        setPlayList(state, list) {
-            state.playList = list
+        setCurrentTime(state, currentTime) {
+            state.currentTime = currentTime
         },
-        addAudioList(state, url) {
-            console.log(url)
-            state.audioList.push(url)
-        }
+        setSongId(state, id) {
+
+            state.songId = id
+        },
+        setSongUrl(state, songUrl) {
+            state.songUrl = songUrl
+        },
+        setSongImg(state, songImg) {
+            state.songImg = songImg
+        },
+        setSongImg(state, songImg) {
+            state.songImg = songImg
+        },
+        setSongArtist(state, songArtist) {
+            state.songArtist = songArtist
+        },
+        setPlaying(state, playing) {
+            state.playing = playing
+        },
+        setShowAplayer(state, showAplayer) {
+            state.showAplayer = showAplayer
+        },
+
+
     },
     actions: {
-        getGeListActions(context, list) {
-            context.commit('getGeList', list)
+        setSongNameActions(context, name) {
+            context.commit('setSongName', name)
+        },
+        setDurationActions(context, duration) {
+            context.commit('setDuration', duration)
+        },
+        setCurrentTimeActions(context, setCurrentTime) {
+            context.commit('setCurrentTime', setCurrentTime)
+        },
+        setSongIdActions(context, setSongId) {
+            context.commit('setSongId', setSongId)
+        },
+        setSongUrlActions(context, setSongUrl) {
+            context.commit('setSongUrl', setSongUrl)
+        },
+        setSongImgActions(context, setSongImg) {
+            context.commit('setSongImg', setSongImg)
+        },
+        setSongArtistActions(context, songArtist) {
+            context.commit('setSongArtist', songArtist)
+        },
+        setPlayingActions(context, setPlaying) {
+            context.commit('setPlaying', setPlaying)
+        },
+        setShowAplayerActions(context, setShowAplayer) {
+            context.commit('setShowAplayer', setShowAplayer)
+        },
 
-        },
-        addAudioListActions(context, url) {
-            context.commit('addAudioList', url)
-        },
-        setPlayListActions(context, list) {
-            context.commit('setPlayList', list)
-        }
 
     }
 })

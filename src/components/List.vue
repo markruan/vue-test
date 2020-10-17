@@ -14,8 +14,7 @@
             lazy-load
             :loading-icon="require('../assets/loading.gif')"
             style="margin:0 6px;"
-            
-          />
+            />
      
       </template>
     </van-cell>

@@ -1,195 +1,128 @@
  
 <template>
-  <div v-if="audioList.length">
+  <div>
     <van-nav-bar left-text="返回" left-arrow @click-left="onClickLeft" />
-    <van-swipe class="my-swipe myswipe" indicator-color="red">
-      <van-swipe-item>
-        <div class="v-image">
-          <div class="border">
-            <van-image
-              :src="audioSources.pic"
-              round
-              :class="{'Rotation':isPlaying}"
-              style="width:100%"
-            ></van-image>
+    <div>
+      <van-swipe class="my-swipe myswipe" indicator-color="red" v-if="songImg">
+        <van-swipe-item>
+          <div class="v-image">
+            <div class="border">
+              <van-image
+                :src="songImg+'?param=300y300'"
+                round
+                :class="{'Rotation':playing}"
+                style="width:100%"
+              ></van-image>
+            </div>
+            <div class="title">{{songName+'-'+songArtist}}</div>
           </div>
-          <div class="title">{{audioSources.title+'-'+audioSources.artist}}</div>
-        </div>
-      </van-swipe-item>
-      <van-swipe-item  class="v-lyric">
-        
-        <LyricScroll  :lyric="lyric" lyricLineheight="1.2em" :current-time="currentTime" :lyricActiveClass="active" />
-      </van-swipe-item>
-    </van-swipe>
+        </van-swipe-item>
 
-    <AudioPlayer
-      ref="audioPlayer"
-      autoplay="autoplay"
-      :audio-list="audioList"
-      :before-play="onBeforePlay"
-      :show-play-button="true"
-      style="position: fixed;width: 90%;bottom: 20px;}"
-      @timeupdate="onTimeUpdate"
-      @playing="Playing"
-      @pause="stopP"
-    />
+        <van-swipe-item v-if="lyricShow" class="v-lyric">
+          <LyricScroll
+            :lyric="lyric"
+            lyricLineheight="1.2em"
+            :current-time="currentTime"
+            :lyricActiveClass="active"
+          />
+        </van-swipe-item>
+      </van-swipe>
+      <audioPlayer class="player" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
-import AudioPlayer  from "../components/audio-player"; 
- 
 import LyricScroll from "vue-lyric-scroll";
- 
+import audioPlayer from "../components/audio-player";
 
 export default {
   name: "app",
   data() {
-    return { 
-      isfull:false,
+    return {
+      isfull: false,
       audioSources: {},
       audioList: [],
-      duration: {},
       timeupdate: {},
-      currentTime: 0,
-      isPlaying:false,
       xuzhuan: "Rotation",
       lyric: {},
-      active:"lyric-active"
-      
+      active: "lyric-active",
+      lyricShow: false
     };
   },
   components: {
-    AudioPlayer,
-    LyricScroll
+    LyricScroll,
+    audioPlayer
+  },
+  created() {
+    this.init();
+    this.setShowAplayerActions(false)
   },
   watch: {
-    isPlaying(old, nw) {
-      //监听正在播放的歌曲改变
-        
-    },
-    audioList(old,news){
-       
-      
-      
+    currentTime: function(val) { 
+      if (val) {
+        this.lyricShow = true;
+      }
     }
   },
   methods: {
-    play(){
-
+    ...mapActions(["setSongIdActions","setShowAplayerActions"]),
+    async init() {
+      this.setSongIdActions(this.$route.params.id);
+      await this.getlyric();
     },
-    stopP() {
-      this.isPlaying = false;
-    },
-    Playing() {
-      this.isPlaying = true; 
-      
-
-    },
-    onTimeUpdate(e) {
-      this.currentTime = e.target.currentTime;
-      
-    },
-    getDuration() {
-      let audio = this.$refs.audioPlayer;
-     
-      //此时可以获取到duration
-      this.duration = audio.duration;
-    },
-        timeStrToNum(str) {
-      const minute = Number(str.slice(0, 2))
-      const second = Number(str.slice(3, 5))
-      const minSec = Number(str.slice(6, 8))
-      return minute * 60 + second + minSec / 100
+    timeStrToNum(str) {
+      const minute = Number(str.slice(0, 2));
+      const second = Number(str.slice(3, 5));
+      const minSec = Number(str.slice(6, 8));
+      return minute * 60 + second + minSec / 100;
     },
     // 将歌词字符串转换为对象，格式为{开始时间: 歌词, ...}
     lyricToObj(lyricStr) {
-            
-        
-      const obj = {}
-      let perLyric
-      let time
-      lyricStr.split('\n').forEach((item, idx) => {
-        perLyric = item.slice(item.indexOf(']') + 1)
+      const obj = {};
+      let perLyric;
+      let time;
+      lyricStr.split("\n").forEach((item, idx) => {
+        perLyric = item.slice(item.indexOf("]") + 1);
         if (perLyric) {
-          time = this.timeStrToNum(item.slice(1, 9))
-          obj[time] = perLyric
+          time = this.timeStrToNum(item.slice(1, 9));
+          obj[time] = perLyric;
         }
-      })
-      return obj
+      });
+      return obj;
     },
-    updateTime(e) {
-      this.currentTime = e.target.currentTime; //获取audio当前播放时间
-    },
-
     onClickLeft() {
       this.$router.go(-1); //返回上一层
+      this.setShowAplayerActions(true)
     },
-    onBeforePlay(next) {
-     
-      next(); // 开始播放
-       
-      this.getDuration();
-    },
-    getlyric() {
+    async getlyric() {
       const self = this;
-      
-      this.$http
-        .get(this.host+"/lyric", { params: { id: this.$route.params.id } })
+      await this.$http
+        .get(this.host + "/lyric", { params: { id: this.$route.params.id } })
         .then(response => {
-          this.lyric =self.lyricToObj(response.data.lrc.lyric) ;
-        })
-        .catch(error => {
-          console.log("接口或处理逻辑出错");
-        });
-    },
-    getMusicInfo() {
-      const this_ = this;
-      
-      this.$http
-        .get(this.host+"/song/url", { params: { id: this.$route.params.id } })
-        .then(response => {
-          for (const item of this.playList) {
-            if (item.id == this.$route.params.id) {
-              this.musicInfo = item;
-            }
+          if (response.data.lrc.lyric) {
+            this.lyric = self.lyricToObj(response.data.lrc.lyric);
           }
-
-          this.audioSources = {
-            title: this.musicInfo.name,
-            artist: this.musicInfo.ar[0].name,
-            pic: this.musicInfo.al.picUrl + "?param=500y500",
-            src: response.data.data[0].url,
-            id: this.$route.params.id
-          };
-          this_.audioList.push(response.data.data[0].url);
-    
-          this_.$store.commit("addSongToHistory", this.audioSources);
         })
         .catch(error => {
           console.log("接口或处理逻辑出错");
         });
     }
   },
-  mounted() {
-    this.getMusicInfo();
-    this.getlyric();
-   
-  },
+  mounted() {},
   computed: {
-    
-    ...mapState(["playList", "playHistory"])
+    ...mapState(["songArtist", "songId", "songImg", "songName", "songUrl","playing","currentTime"])
   }
 };
 </script>
- <style  >
- .v-lyric{
-     text-align: center !important;
- }
- .lyric-active{
-    color: red !important;
-    font-size: 20px;
+ <style scoped >
+.v-lyric {
+  text-align: center !important;
+}
+.lyric-active {
+  color: red !important;
+  font-size: 20px;
 }
 .v-image {
   position: absolute;
@@ -226,5 +159,10 @@ export default {
 .myswipe {
   height: 25rem;
 }
-
+.audio-player {
+  margin: 0 15px;
+  position: fixed;
+  width: 90%;
+  bottom: 0;
+}
 </style>

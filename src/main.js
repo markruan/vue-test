@@ -4,17 +4,19 @@ import http from "axios"
 import router from './router'
 import store from './store'
 Vue.prototype.$http = http;
-// http.defaults.baseURL = 'https://api.iqimeng.com';
-Vue.prototype.host="/api"
+http.defaults.baseURL = 'https://api.iqimeng.com';
+Vue.prototype.host=""
 // Vue.prototype.host="https://api.iqimeng.com/"
+// Vue.prototype.host="api"
 
 Vue.config.productionTip = false
 import LyricScroll from 'vue-lyric-scroll'
 Vue.use(LyricScroll)
 import Vant from 'vant';
 import 'vant/lib/index.css';
-import { Lazyload } from 'vant';
-import { Popup } from 'vant';
+import { Lazyload,Popup } from 'vant';
+ 
+ 
  
 Vue.use(Popup);
 
@@ -32,6 +34,8 @@ Vue.use(VueVideoPlayer, /* {
   options: global default options,
   events: global videojs events
 } */)
+
+
  
 
 Vue.use(Vant);

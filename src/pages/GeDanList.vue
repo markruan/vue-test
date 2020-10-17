@@ -42,9 +42,7 @@ export default {
             this.tracks=response.data.playlist.tracks
             this.tracks=this.tracks
             this.id=this.tracks
-            this.$store.dispatch("setPlayListActions",this.tracks)
-          
-        })
+       })
         .catch(error => {
           console.log("接口或处理逻辑出错");
         });

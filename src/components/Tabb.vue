@@ -1,9 +1,13 @@
 <template>
+ 
   <van-swipe :autoplay="3000">
     <van-swipe-item v-for="(image, index) in picList" :key="index">
+     
       <img :src="image" width="100%" />
+    
     </van-swipe-item>
   </van-swipe>
+   
 </template>
 
 <script>

@@ -12,7 +12,9 @@
         <van-tab title="歌手">
           <Singer :singer-list="singerList" />
         </van-tab>
-        <van-tab title="我的"></van-tab>
+        <van-tab title="我的">
+            <My/>
+        </van-tab>
       </van-tabs>
     </div>
   </keep-alive>
@@ -21,6 +23,7 @@
 <script>
 import Singer from "../components/Singer.vue";
 import Find from "../components/find";
+import My from "../components/my"
 import { mapState, mapActions } from "vuex";
 export default {
   name: "HelloWorld",
@@ -36,7 +39,8 @@ export default {
   },
   components: {
     Find,
-    Singer
+    Singer,
+    My
   },
   props: {
     msg: String
