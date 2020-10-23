@@ -31,6 +31,21 @@ export default new Router({
       path: '/player/:id',
       name: 'player',
       component: Player
+    }, {
+      path: '/moregedan',
+      name: 'moregedan',
+      component: () => import('../pages/MoreGeDan')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../pages/login')
+    },
+    {
+      path:'/dayplay',
+      name:'dayplay',
+      component: () => import('../pages/DayPlay')
+
     }
 
   ]

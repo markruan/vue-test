@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+  <div> 
+      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <van-cell title="歌单" value title-style="font-size:16px" />
       <van-cell
         @click="sengSongInfo(item)"
@@ -8,10 +8,9 @@
         :key="item.id"
         :title="item.name"
         :label="item.ar[0].name"
-        
-      />
+        />
     </van-list>
-  </div>
+   </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";

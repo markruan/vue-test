@@ -1,7 +1,13 @@
 <template>
   <van-tab title="推荐" fixed>
       <Tabb :pic-list="picList" />
-    <van-panel title="热门歌单" desc status>
+       <van-grid :border="false" :column-num="3" style="color:red">
+          <van-grid-item icon="fire-o" text="每日推荐" to="/dayplay" />
+          <van-grid-item icon="music-o" text="歌单" to="/moregedan" />
+          <van-grid-item icon="bar-chart-o" text="排行榜" @click="iskaifa" />
+          
+        </van-grid>
+   <van-panel title="热门歌单" desc status>
        <List :hot-list="hotList" />
     </van-panel>
     <van-panel title="热门视频" desc status>
@@ -14,6 +20,7 @@
 import List from "../components/List.vue";
 import Tabb from "../components/Tabb.vue";
 import Vlist from "../components/Vlist.vue";
+import { Toast } from 'vant';
 export default {
   name: "find",
   data() {
@@ -28,6 +35,11 @@ export default {
     picList: Array,
     hotList:Array,
     mvList:Array
+ },
+ methods:{
+   iskaifa(){
+     Toast('开发中...')
+   }
  }
 };
 </script>

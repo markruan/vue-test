@@ -93,7 +93,7 @@ export default {
       return obj;
     },
     onClickLeft() {
-      this.$router.go(-1); //返回上一层
+      this.$router.back(); //返回上一层
       this.setShowAplayerActions(true)
     },
     async getlyric() {

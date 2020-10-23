@@ -20,7 +20,9 @@ const store = new Vuex.Store({
         songUrl: '',
         songImg: '',
         songArtist: {},
-        showAplayer: true
+        showAplayer: true,
+        playList:[],
+        userinfo:''
     },
     mutations: {
         setSongName(state, name) {
@@ -54,6 +56,12 @@ const store = new Vuex.Store({
         setShowAplayer(state, showAplayer) {
             state.showAplayer = showAplayer
         },
+        setPlayList(state,list){
+          state.playList=list
+        },
+        setUserInfo(state,info){
+          state.userinfo=info
+        }
 
 
     },
@@ -85,7 +93,12 @@ const store = new Vuex.Store({
         setShowAplayerActions(context, setShowAplayer) {
             context.commit('setShowAplayer', setShowAplayer)
         },
-
+        setPlayListActions(context, list) {
+            context.commit('setPlayList', list)
+        },
+        setUserInfoActions(context, list) {
+            context.commit('setUserInfo', list)
+        },
 
     }
 })

@@ -4,11 +4,11 @@
        <van-skeleton title avatar :row="1" v-for="item in 3" :key="item"/>
     </div>
     <div v-else>
-    <van-cell v-for="item in hotList" :key="item.id" :title="item.name" :label="item.copywriter" :to="'/list/'+item.id">
+    <van-cell  v-for="item in hotList" :key="item.id" :title="item.name" :label="item.copywriter?item.copywriter:item.trackCount+'首,'+'by '+item.creator.nickname" :to="'/list/'+item.id">
       <template #icon>
-         
+          
           <van-image
-            :src="item.picUrl+'?param=200y200'"
+            :src="item.picUrl?item.picUrl+'?param=200y200':item.coverImgUrl+'?param=200y200'"
             :height="50"
             :width="50"
             lazy-load
@@ -30,12 +30,13 @@ export default {
     }
   },
   created() {
-    
-    
-  },
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
+   },
   watch:{
       hotList(old){
-       this.onLoad()
+       this.onLoad() 
       }
   },
   data() {
