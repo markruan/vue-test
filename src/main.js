@@ -14,6 +14,9 @@ Vue.use(LyricScroll)
 import Vant from 'vant';
 import 'vant/lib/index.css';
 import { Lazyload,Popup } from 'vant';
+import Carousel3d from 'vue-carousel-3d';
+
+Vue.use(Carousel3d);
  
  
  

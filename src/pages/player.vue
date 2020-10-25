@@ -66,6 +66,10 @@ export default {
       }
     }
   },
+  beforeRouteLeave (to, from, next) {
+     
+    next()
+  },
   methods: {
     ...mapActions(["setSongIdActions","setShowAplayerActions"]),
     async init() {
@@ -93,7 +97,7 @@ export default {
       return obj;
     },
     onClickLeft() {
-      this.$router.back(); //返回上一层
+      this.$router.go(-1); //返回上一层
       this.setShowAplayerActions(true)
     },
     async getlyric() {

@@ -5,8 +5,7 @@
           ref="aplayer"
           autoplay
           @timeupdate="timeupdate"
-          @pause="handleEvent"
-          :list="playList"
+          @pause="handleEvent" 
           :music="{
             title: this.songName,
             artist: this.songArtist,
@@ -68,8 +67,7 @@ export default {
         this.getMusicInfo();
       }
     },
-    playing(val) {
-      console.log(val);
+    playing(val) { 
       if (!val) {
         this.$refs.aplayer.pause();
       } else {
@@ -118,14 +116,16 @@ export default {
       this.setDurationActions(e.target.duration);
     },
     isplaying(e) {
-      console.log(e);
+      // console.log(e);111
+      111
     },
     ispause(e) {
-       console.log(e);
+      //  console.log(e);
       this.setPlayingActions(false);
     },
     timeupdate(e) {
       this.setCurrentTimeActions(e.target.currentTime);
+      this.setDurationActions(e.target.duration)
     },
     async getMusicInfo() {
       const songData = await this.$http.get(this.host + "/song/detail", {

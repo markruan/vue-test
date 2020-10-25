@@ -1,11 +1,13 @@
 <template>
   <div>
     <van-nav-bar title="歌单广场" left-text="返回" @click-left="onClickLeft" left-arrow />
-
+   
     <van-tabs v-model="active" sticky @change="indexChange" swipeable>
-      <van-tab v-for="item in catList" :key="item.name" :title="item.name " animated>
+      
+      <van-tab v-for="(item,i) in catList"  v-if="i>0" :key="item.id" :title="item.name " animated>
         <van-loading v-if="isloading" type="circular" color="#1989fa" vertical />
         <van-grid v-else :column-num="3" :border="false">
+           <Pic3d :slides="geDanList" v-if=" i==1" />
           <van-grid-item v-for="value in geDanList" :key="value.id" :to="'/list/'+value.id">
             <van-image
               :src="value.coverImgUrl+'?param=150y150'"
@@ -26,6 +28,7 @@
   </div>
 </template>
 <script>
+import Pic3d  from "../components/3d"
 export default {
   data() {
     return {
@@ -35,6 +38,9 @@ export default {
       geDanList: [],
       isloading: true
     };
+  },
+   components: {
+    Pic3d
   },
   watch: {},
 

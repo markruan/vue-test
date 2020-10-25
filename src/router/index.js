@@ -15,26 +15,41 @@ export default new Router({
     {
       path: '/mv/:id',
       name: 'mv',
-      component: Mv
+      component: Mv,
+      meta:{
+        keepAlive:false
+      }
     },
     {
       path: '/',
       name: 'index',
-      component: HelloWorld
+      component: HelloWorld,
+      meta:{
+        keepAlive:false
+      }
     },
     {
       path: '/list/:id',
       name: 'list',
-      component: GeDanList
+      component: GeDanList,
+      meta:{
+        keepAlive:false
+      }
     },
     {
       path: '/player/:id',
       name: 'player',
-      component: Player
+      component: Player,
+      meta:{
+        keepAlive:false
+      }
     }, {
       path: '/moregedan',
       name: 'moregedan',
-      component: () => import('../pages/MoreGeDan')
+      component: () => import('../pages/MoreGeDan'),
+      meta:{
+        keepAlive:false
+      }
     },
     {
       path: '/login',
@@ -44,7 +59,10 @@ export default new Router({
     {
       path:'/dayplay',
       name:'dayplay',
-      component: () => import('../pages/DayPlay')
+      component: () => import('../pages/DayPlay'),
+      meta:{
+        keepAlive:false
+      }
 
     }
 

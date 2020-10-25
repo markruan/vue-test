@@ -1,19 +1,17 @@
 <template>
-  <van-row gutter="5" justify="space-between" style="margin:5px">
-    <van-col v-for="item in mvList" :key="item.id" span="12">
-      <router-link tag="div" :to="'/mv/'+item.id" :name="item.name">
-        <van-image
-          height="100"
-          lazy-load
-          :src="item.cover+'?param=320y180'"
-          :loading-icon="require('../assets/loading.gif')"
-        />
-        <div class="van-ellipsis" style="font-size:12px;line-height:16px;">
-          <span>{{item.name}}-{{item.artistName}}</span>
-        </div>
-      </router-link>
-    </van-col>
-  </van-row>
+  <van-grid :column-num="2" :border="false">
+    <van-grid-item v-for="item in mvList" :key="item.id" :to="'/mv/'+item.id" gutter=1 >
+      <van-image
+        height="100"
+        fit="contain"
+        lazy-load
+        :src="item.cover+'?param=320y180'"
+        :loading-icon="require('../assets/loading.gif')"
+      />
+      <span class="title van-multi-ellipsis--l2">{{item.name}}-{{item.artistName}}</span>
+      
+    </van-grid-item>
+  </van-grid>
 </template>
 <script>
 export default {
@@ -26,3 +24,9 @@ export default {
   methods: {}
 };
 </script>>
+<style scoped>
+.title{
+  font-size: 12px;
+  height: 28px;
+}
+</style>>

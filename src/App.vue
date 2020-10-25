@@ -1,14 +1,18 @@
 <template>
   <div id="app">
     <div class="view">
-      <router-view />
+      <keep-alive v-if="!$route.meta.keepAlive">
+        <router-view/>
+      </keep-alive>
     </div>
-    <keep-alive>  <VuePlayer/></keep-alive>
+    <keep-alive>
+      <VuePlayer />
+    </keep-alive>
   </div>
 </template>
 
-<script> 
-import VuePlayer from "./components/Vue-player"
+<script>
+import VuePlayer from "./components/Vue-player";
 export default {
   name: "app",
   data: () => ({
@@ -17,11 +21,10 @@ export default {
   components: {
     VuePlayer
   }
-
 };
 </script>
 <style scoped>
- .view {
+.view {
   margin-bottom: 22%;
 }
 </style>>

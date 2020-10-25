@@ -3,7 +3,7 @@
  */
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { isPending } from 'q';
+ 
 
 //挂载Vuex
 Vue.use(Vuex)
@@ -44,9 +44,7 @@ const store = new Vuex.Store({
         setSongImg(state, songImg) {
             state.songImg = songImg
         },
-        setSongImg(state, songImg) {
-            state.songImg = songImg
-        },
+        
         setSongArtist(state, songArtist) {
             state.songArtist = songArtist
         },

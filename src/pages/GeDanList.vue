@@ -1,5 +1,5 @@
-<template>
-  <keep-alive>
+<template> 
+
   <div>
     <van-nav-bar
       :title="geDanInfo.name"
@@ -15,8 +15,7 @@
         :src="geDanInfo.coverImgUrl+'?param=320y180'"
       />
    <SongList :tracks="tracks" />
-  </div>
-  </keep-alive>
+  </div>  
 </template>>
 <script>
 import SongList from "../components/SongList"
@@ -51,8 +50,7 @@ export default {
               info.songArtist=item.ar[0].name
               info.songImg=item.al.picUrl
               this.playlist.push(info)
-            }
-         this.setPlayListActions(this.playlist)
+            } 
         })
         .catch(error => {
           console.log("接口或处理逻辑出错");
