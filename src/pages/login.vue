@@ -41,7 +41,7 @@ export default {
    async onSubmit(values) {
       
       const res=await this.$http.get(this.host+'/login/cellphone',{params:{phone:values.phone,password:values.password}})
-      console.log(res);
+      
       if(res.data.code==200){
           Toast('登录成功')
           this.setUserInfoActions(res.data.profile)

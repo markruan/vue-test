@@ -4,8 +4,9 @@ import http from "axios"
 import router from './router'
 import store from './store'
 Vue.prototype.$http = http;
-// http.defaults.baseURL = 'https://api.iqimeng.com';
-Vue.prototype.host="api"
+http.defaults.baseURL = 'https://api.iqimeng.com';
+http.defaults.withCredentials = true;
+Vue.prototype.host=""
 // Vue.prototype.host="https://api.iqimeng.com/"
 
 Vue.config.productionTip = false

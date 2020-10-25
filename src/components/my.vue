@@ -2,25 +2,25 @@
   <div>
     <div v-if="islogin" style="margin-top:5%">
       <div class="mian">
-        <van-image round width="6rem" height="6rem" :src="userinfo.avatarUrl" />
+        <van-image round width="6rem" height="6rem" :src="user_info.avatarUrl" />
       </div>
 
-      <h3 style="text-align: center;" v-text="userinfo.nickname||'未登录'"></h3>
-      <h5 style="text-align: center;" v-text="userinfo.signature"></h5>
+      <h3 style="text-align: center;" v-text="user_info.nickname||'未登录'"></h3>
+      <h5 style="text-align: center;" v-text="user_info.signature"></h5>
       <van-grid clickable :column-num="3" :border="false">
         <van-grid-item text="动态" to="/">
           <template #icon>
-            <span>{{userinfo.eventCount}}</span>
+            <span>{{user_info.eventCount}}</span>
           </template>
         </van-grid-item>
         <van-grid-item text="关注" to="/">
           <template #icon>
-            <span>{{userinfo.followeds}}</span>
+            <span>{{user_info.followeds}}</span>
           </template>
         </van-grid-item>
         <van-grid-item text="粉丝" to="/">
           <template #icon>
-            <span>{{userinfo.follows}}</span>
+            <span>{{user_info.follows}}</span>
           </template>
         </van-grid-item>
       </van-grid>
@@ -42,10 +42,8 @@
         <van-button round block type="warning" @click="loginOut" style="margin-top:40px">注销</van-button>
       </div>
     </div>
-    <van-empty v-else description="未登录"  >
-        <van-button @click="goLogin" round type="primary" class="bottom-button">
-        登录
-      </van-button>
+    <van-empty v-else description="未登录">
+      <van-button @click="goLogin" round type="primary" class="bottom-button">登录</van-button>
     </van-empty>
   </div>
 </template>>
@@ -61,14 +59,20 @@ export default {
       myList: [],
       myClectd: [],
       loading: true,
-      finished: false
+      finished: false,
+      user_info:{}
     };
   },
   components: {
     List
   },
   watch: {
-    myClectd(val) {}
+    userinfo(val) {
+      if (val) {
+        this.getUserInfo();
+        this.getMyList();
+      }
+    }
   },
   created() {
     this.getUserInfo();
@@ -76,10 +80,13 @@ export default {
       this.getMyList();
     }
   },
+  computed: {
+    ...mapState(["userinfo"])
+  },
   methods: {
     getUserInfo() {
       if (localStorage.getItem("userinfo")) {
-        this.userinfo = JSON.parse(localStorage.getItem("userinfo"));
+        this.user_info = JSON.parse(localStorage.getItem("userinfo"));
         this.islogin = true;
       } else {
         this.islogin = false;
@@ -87,15 +94,13 @@ export default {
     },
     async getMyList() {
       const res = await this.$http.get(this.host + "/user/playlist", {
-        params: { uid: this.userinfo.userId }
+        params: { uid: this.user_info.userId }
       });
       if (res.data.code == 200) {
         const List = res.data.playlist;
         List.forEach(item => {
-          if (
-            item.creator.userId ==
-            JSON.parse(localStorage.getItem("userinfo")).userId
-          ) {
+          if (item.creator.userId ==JSON.parse(localStorage.getItem("userinfo")).userId)
+           {
             this.myList.push(item);
           } else {
             this.myClectd.push(item);
@@ -123,7 +128,7 @@ export default {
   text-align: center;
 }
 .bottom-button {
-    width: 160px;
-    height: 40px;
-  }
+  width: 160px;
+  height: 40px;
+}
 </style>

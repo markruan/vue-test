@@ -1,4 +1,6 @@
-# 2020
+# vue 音乐播放器学习
+
+[DEMO:](http://v7.iqimeng.com/)
 
 ## Project setup
 ```
