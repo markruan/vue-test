@@ -13,7 +13,7 @@ const store = new Vuex.Store({
     state: {
         //存放的键值对就是所要管理的状态
         playing: false,
-        duration: {},
+        duration: 0,
         currentTime: 0,
         songId: {},
         songName: {},

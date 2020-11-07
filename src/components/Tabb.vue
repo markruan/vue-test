@@ -10,7 +10,7 @@
    
 </template>
 
-<script>
+<script> 
 export default {
   name: "Tabb",
   props: {
@@ -18,6 +18,7 @@ export default {
       type: Array
     }
   },
+ 
   created() {
     
   },

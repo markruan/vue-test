@@ -7,8 +7,7 @@
       fixed
       left-arrow
       @click-left="onClickLeft"
-    
-    />
+     />
     <van-image
         width="100%"
         style="margin-top: 46px;"

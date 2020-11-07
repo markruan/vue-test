@@ -1,58 +1,63 @@
 <template>
-     <div class="player" v-if="songUrl" v-show="showAplayer">
-     
-        <aplayer
-          ref="aplayer"
-          autoplay
-          @timeupdate="timeupdate"
-          @pause="handleEvent" 
-          :music="{
-            title: this.songName,
-            artist: this.songArtist,
-            src: this.songUrl,
-            pic: this.songImg, 
-          }"
-          :currentTime="0"
-          fixed
-          listFolded
-          @canplay="handleEvent"
-          @play="play"
-          @abort="handleEvent"
-          @canplaythrough="handleEvent"
-          @durationchange="handleEvent"
-          @emptied="handleEvent"
-          @ended="handleEvent"
-          @error="handleEvent"
-          @loadeddata="handleEvent"
-          @loadedmetadata="handleEvent"
-          @loadstart="handleEvent"
-          @playing="isplaying"
-          @progress="handleEvent"
-          @ratechange="handleEvent"
-          @readystatechange="handleEvent"
-          @seeked="handleEvent"
-          @seeking="handleEvent"
-          @stalled="handleEvent"
-          @suspend="handleEvent"
-          @volumechange="handleEvent"
-          @waiting="handleEvent"
+  <div class="musicPlay" v-if="songUrl" v-show="showAplayer">
+    <audio
+      ref="aplayer"
+      controls="controls"
+      :src="this.songUrl"
+      @timeupdate="timeupdate"
+      @play="play"
+    />
+    <!--        迷你播放器-->
+    <div  v-show="minOrMax" class="audio-com-box-min">
+      <van-image round width="50px" height="50px" :src="songImg" />
+      <div class="musicName">
+        <p>{{songName===''?'正在播放电台':songName}}</p>
+        <p class="tip" v-text="songArtist"></p>
+      </div>
+      <div class="musicIcon">
+        <van-icon
+          v-show="!playing"
+          name="play-circle-o"
+          size="36px"
+          color="#bfbfbf"
+           @click="isplay"
         />
-      
+        <van-icon
+          v-show="playing"
+          name="pause-circle-o"
+          size="36px"
+          color="#bfbfbf"
+            @click="ispause"
+        />
+        <van-icon 
+          name="coupon-circle-o"
+          size="24px"
+          color="#bfbfbf"
+          @click="ispause"
+        />
+      </div>
     </div>
+    <!--全屏模式-->
+    <div v-show="!minOrMax" >
+     <fullplayer/>
+    </div>
+    
+  </div>
 </template>>
 
 <script>
-import Aplayer from "vue-aplayer";
+import fullplayer from "../pages/player";
 import { mapState, mapActions } from "vuex";
 export default {
-    name: "app",
-    data: () => ({
-    musicInfo: {}
+  name: "app",
+  data: () => ({
+    musicInfo: {},
+    minOrMax:true
   }),
   components: {
-    Aplayer
+    fullplayer
   },
-    watch: {
+  watch: {
     songUrl: function(val) {
       if (val) {
         this.show = true;
@@ -67,7 +72,7 @@ export default {
         this.getMusicInfo();
       }
     },
-    playing(val) { 
+    playing(val) {
       if (!val) {
         this.$refs.aplayer.pause();
       } else {
@@ -117,7 +122,7 @@ export default {
     },
     isplaying(e) {
       // console.log(e);111
-      111
+      111;
     },
     ispause(e) {
       //  console.log(e);
@@ -125,10 +130,13 @@ export default {
     },
     timeupdate(e) {
       this.setCurrentTimeActions(e.target.currentTime);
-      this.setDurationActions(e.target.duration)
+      this.setDurationActions(e.target.duration);
+    },
+    isMinPlayer() {
+      this.minOrMax=false
     },
     async getMusicInfo() {
-      const songData = await this.$http.get(this.host + "/song/detail", {
+      const songData = await this.$http.get("/song/detail", {
         params: {
           ids: this.$route.params.id
         }
@@ -140,7 +148,7 @@ export default {
 
       const this_ = this;
       this.$http
-        .get(this.host + "/song/url", { params: { id: this.$route.params.id } })
+        .get("/song/url", { params: { id: this.$route.params.id } })
         .then(response => {
           this.setSongUrlActions(response.data.data[0].url);
         })
@@ -149,14 +157,81 @@ export default {
         });
     }
   }
-}
+};
 </script>>
-<style scoped>
-.player {
-  position: fixed;
-  width: 100%;
-  background-color: white;
-  bottom: 0;
+<style scoped >
+audio {
+  display: none;
+}
+@keyframes rotatePic {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
+.move2-enter-active,
+.move2-leave-active {
+  transition: all 0.7s;
+}
+
+/* 显示前或隐藏后的效果 */
+.move2-enter,
+.move2-leave-to {
+  transform: translateY(200%);
+}
+
+.audio-com-box-min {
+  position: fixed;
+  bottom: 0;
+  width: -webkit-fill-available;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.99);
+}
+p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 1px;
+  
+}
+
+.tip {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #a7a6a7;
+}
+
+.musicName {
+  flex: 3;
+  padding-left: 25px; 
+  font-weight: 600;
+}
+/*音频图标*/
+
+.musicIcon {
+  flex: 1;
+
+  img {
+    margin-top: 15px;
+    margin-left: 50px;
+  }
+}
+
+.move-enter-active,
+.move-leave-active {
+  transition: all 0.7s;
+}
+
+/* 显示前或隐藏后的效果 */
+.move-enter,
+.move-leave-to {
+  transform: translateY(200%);
+}
 </style>

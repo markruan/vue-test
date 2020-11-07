@@ -28,7 +28,7 @@
 
    
 </template>
-<script>
+<script> 
     export default { 
         name: 'singer',
         props:{
@@ -39,6 +39,7 @@
         created(){
           console.log(this.props)  
         },
+    
         data () {
             return {
           

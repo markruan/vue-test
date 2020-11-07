@@ -52,6 +52,14 @@ export default new Router({
       }
     },
     {
+      path: '/ranks',
+      name: 'rank',
+      component: () => import('../pages/Rank'),
+      meta:{
+        keepAlive:false
+      }
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('../pages/login')

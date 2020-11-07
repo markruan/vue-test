@@ -22,6 +22,7 @@
   </van-list>
 </template>
 <script>
+import {Skeleton} from "vant"
 export default {
   name: "List",
   props: {
@@ -38,6 +39,10 @@ export default {
       hotList(old){
        this.onLoad() 
       }
+  },
+  components:{ 
+    [Skeleton.name]:Skeleton
+
   },
   data() {
     return {

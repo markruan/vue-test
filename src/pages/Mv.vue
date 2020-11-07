@@ -81,7 +81,7 @@ export default {
     openMv() {
       const this_ = this;
       this.$http
-        .get(this.host+"/mv/url", { params: { id: this.$route.params.id } })
+        .get(this.host + "/mv/url", { params: { id: this.$route.params.id } })
         .then(function(response) {
           this_.playerOptions.sources[0].src = response.data.data.url;
         })
@@ -93,7 +93,9 @@ export default {
     getMvDetail() {
       const this_ = this;
       this.$http
-        .get(this.host+"/mv/detail", { params: { mvid: this.$route.params.id } })
+        .get(this.host + "/mv/detail", {
+          params: { mvid: this.$route.params.id }
+        })
         .then(response => {
           this_.MvDetail = response.data.data;
           this_.playerOptions.poster = this_.MvDetail.cover + "?param=320y180";

@@ -1,10 +1,8 @@
 <template>
   <div id="app">
-    <div class="view">
-      <keep-alive v-if="!$route.meta.keepAlive">
+    <div class="view"> 
         <router-view/>
-      </keep-alive>
-    </div>
+     </div>
     <keep-alive>
       <VuePlayer />
     </keep-alive>

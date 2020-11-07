@@ -48,7 +48,14 @@
   </div>
 </template>>
 <script>
-import { Toast } from "vant";
+import {
+  Toast,
+  Empty,
+  Button,
+  
+  Collapse,
+  CollapseItem
+} from "vant";
 import { mapState, mapActions } from "vuex";
 import List from "../components/List";
 export default {
@@ -60,11 +67,15 @@ export default {
       myClectd: [],
       loading: true,
       finished: false,
-      user_info:{}
+      user_info: {}
     };
   },
   components: {
-    List
+    List,
+    [Empty.name]: Empty,
+     [Collapse.name]: Collapse,
+    [CollapseItem.name]: CollapseItem,
+    [Button.name]: Button
   },
   watch: {
     userinfo(val) {
@@ -93,14 +104,16 @@ export default {
       }
     },
     async getMyList() {
-      const res = await this.$http.get(this.host + "/user/playlist", {
+      const res = await this.$http.get("/user/playlist", {
         params: { uid: this.user_info.userId }
       });
       if (res.data.code == 200) {
         const List = res.data.playlist;
         List.forEach(item => {
-          if (item.creator.userId ==JSON.parse(localStorage.getItem("userinfo")).userId)
-           {
+          if (
+            item.creator.userId ==
+            JSON.parse(localStorage.getItem("userinfo")).userId
+          ) {
             this.myList.push(item);
           } else {
             this.myClectd.push(item);

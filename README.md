@@ -29,3 +29,11 @@ npm run lint
 ###
 
 Vue 音乐播放器学习
+
+效果图：
+
+![image-20201107152538102](https://raw.githubusercontent.com/markruan/cloudimg/master/img/image-20201107152538102.png)
+
+![image-20201107152636381](https://raw.githubusercontent.com/markruan/cloudimg/master/img/image-20201107152749406.png)
+
+![image-20201107152749406](https://raw.githubusercontent.com/markruan/cloudimg/master/img/image-20201107152749406.png)

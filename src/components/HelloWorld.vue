@@ -13,17 +13,17 @@
           <Singer :singer-list="singerList" />
         </van-tab>
         <van-tab title="我的">
-            <My/>
+          <My />
         </van-tab>
       </van-tabs>
     </div>
   </keep-alive>
 </template>
 
-<script>
+<script> 
 import Singer from "../components/Singer.vue";
 import Find from "../components/find";
-import My from "../components/my"
+import My from "../components/my";
 import { mapState, mapActions } from "vuex";
 export default {
   name: "HelloWorld",
@@ -40,7 +40,7 @@ export default {
   components: {
     Find,
     Singer,
-    My
+    My, 
   },
   props: {
     msg: String
@@ -59,7 +59,7 @@ export default {
     async init() {
       const this_ = this;
       this.$http
-        .get(this.host + "/banner?type=2", { param: {} })
+        .get("/banner?type=2", { param: {} })
         .then(function(response) {
           this_.picList = response.data.banners.map(item => item.pic);
         })
@@ -70,7 +70,7 @@ export default {
     async getHotList() {
       const this_ = this;
       this.$http
-        .get(this.host + "/personalized", { params: { limit: 6 } })
+        .get("/personalized", { params: { limit: 6 } })
         .then(function(response) {
           this_.hotList = response.data.result;
         })
@@ -81,7 +81,7 @@ export default {
     async getSingerList() {
       const this_ = this;
       this.$http
-        .get(this.host + "/artist/list", { params: { limit: 100, type: -1 } })
+        .get("/artist/list", { params: { limit: 100, type: -1 } })
         .then(function(response) {
           this_.singerList = response.data.artists;
         })
@@ -92,7 +92,7 @@ export default {
     async getVideoList() {
       const this_ = this;
       this.$http
-        .get(this.host + "/mv/first", { params: { limit: 10, type: -1 } })
+        .get("/mv/first", { params: { limit: 10, type: -1 } })
         .then(function(response) {
           this_.mvList = response.data.data;
         })

@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     async getDayPlaylist() {
-      const list = await this.$http.get(this.host + "/recommend/songs");
+      const list = await this.$http.get("/recommend/songs");
       console.log(list);
       this.tracks=list.data.data.dailySongs
     },

@@ -27,36 +27,41 @@
   </div>
 </template>>
 <script>
-import { Toast } from "vant";
+import { Toast, NavBar, Button, Form, Field } from "vant";
 import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      phone: '',
-      password: '',
+      phone: "",
+      password: ""
     };
   },
+  components: {
+    [Button.name]: Button,
+    [NavBar.name]: NavBar,
+    [Form.name]: Form,
+    [Field.name]: Field
+  },
   methods: {
-   ...mapActions(["setUserInfoActions"]),
-   async onSubmit(values) {
-      
-      const res=await this.$http.get(this.host+'/login/cellphone',{params:{phone:values.phone,password:values.password}})
-      
-      if(res.data.code==200){
-          Toast('登录成功')
-          this.setUserInfoActions(res.data.profile)
-          localStorage.setItem('userinfo',JSON.stringify(res.data.profile))
-          this.$router.push('/')
-      }else{
-            Toast('登录错误')
+    ...mapActions(["setUserInfoActions"]),
+    async onSubmit(values) {
+      const res = await this.$http.get("/login/cellphone", {
+        params: { phone: values.phone, password: values.password }
+      });
+
+      if (res.data.code == 200) {
+        Toast("登录成功");
+        this.setUserInfoActions(res.data.profile);
+        localStorage.setItem("userinfo", JSON.stringify(res.data.profile));
+        this.$router.push("/");
+      } else {
+        Toast("登录错误");
       }
-    },
+    }
   },
-    computed: {
-    ...mapState([
-      "userinfo",
-     ])
-  },
+  computed: {
+    ...mapState(["userinfo"])
+  }
 };
 </script>
 <style scoped>

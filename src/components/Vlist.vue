@@ -13,13 +13,16 @@
     </van-grid-item>
   </van-grid>
 </template>
-<script>
+<script> 
 export default {
   name: "Vlist",
   props: {
     mvList: {
       type: Array
     }
+  },
+  components:{
+   
   },
   methods: {}
 };
